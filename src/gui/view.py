@@ -7,8 +7,18 @@ import pygame
 
 sys.path.append(".")
 from src.board.board import Board
-from src.utils.consts import SIZE, MARGIN, BACKGROUND_COLORS, BLACK_STONE,\
-    WHITE_STONE, LEFT, RIGHT, BLACK_TXT, SCORE, MSG
+from src.utils.consts import (
+    SIZE,
+    MARGIN,
+    BACKGROUND_COLORS,
+    BLACK_STONE,
+    WHITE_STONE,
+    LEFT,
+    RIGHT,
+    BLACK_TXT,
+    SCORE,
+    MSG,
+)
 from src.utils.move import Move
 from src.utils.stone import Stone
 
@@ -59,16 +69,14 @@ class View(Board):
                     pygame.draw.circle(
                         self.screen,
                         BLACK_STONE,
-                        (self.list_of_points[2][i][1],
-                         self.list_of_points[0][j][0]),
+                        (self.list_of_points[2][i][1], self.list_of_points[0][j][0]),
                         20,
                     )
                 elif self.array[i][j] == Stone.WHITE:
                     pygame.draw.circle(
                         self.screen,
                         WHITE_STONE,
-                        (self.list_of_points[2][i][1],
-                         self.list_of_points[0][j][0]),
+                        (self.list_of_points[2][i][1], self.list_of_points[0][j][0]),
                         20,
                     )
         score = (
@@ -93,10 +101,10 @@ class View(Board):
         if self.is_game_ended == 1:
             msg = NONE
             if self.black_points > self.white_points:
-                msg = (f"Wygrał Czarny")
+                msg = f"Wygrał Czarny"
             else:
-                msg = (f"Wygrał Biały")
-                
+                msg = f"Wygrał Biały"
+
             txt = self.font.render(msg, True, BLACK_TXT)
             self.screen.blit(txt, MSG)
             pygame.display.flip()
@@ -133,15 +141,14 @@ class View(Board):
 
             self.set_value_in_board(num_x, num_y, self.color)
 
-            for group in list(self.get_groups(self.opposit_color)):
-                if self.has_no_liberties(group):
+            for group in list(self.find_groups(self.opposit_color)):
+                if self.find_liberties(group):
                     for i, j in group:
                         self.array[i][j] = Stone.EMPTY
                     if self.move == Move.BLACK:
                         self.white_points += len(group)
                     else:
                         self.black_points += len(group)
-                        
 
             # draw stone
             self.draw()

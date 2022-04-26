@@ -66,7 +66,7 @@ class Board:
 
         return (svp, evp, shp, ehp)
 
-    def get_groups(self, color: Stone):
+    def find_groups(self, color: Stone):
         c = 0
         if color == Stone.BLACK:
             c = Stone.BLACK
@@ -80,7 +80,7 @@ class Board:
         graph.remove_nodes_from(to_remove)
         return nx.connected_components(graph)
 
-    def has_no_liberties(self, group):
+    def find_liberties(self, group):
         for x, y in group:
             if x > 0 and self.array[x - 1, y] == 0:
                 return False
